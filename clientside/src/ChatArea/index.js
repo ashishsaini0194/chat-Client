@@ -6,7 +6,7 @@ export default function ChatArea(props) {
   const form = document.querySelector("form");
   const input = document.querySelector(".input");
   // const messages = document.querySelector(".messages");
-  const username = "Ashish"; //prompt("Please enter a nickname: ", "");
+  let username;
 
   const [messages, setMessages] = useState([]);
   const room = 1;
@@ -14,6 +14,7 @@ export default function ChatArea(props) {
   useEffect(() => {
     console.log("ran");
     if (window.socket) return;
+    username = prompt("Please enter a nickname: ", "");
     const socket = io("http://localhost:3001", {
       reconnectionAttempts: 0,
       reconnection: false,
@@ -55,7 +56,9 @@ export default function ChatArea(props) {
     <>
       <ul className="messages">
         {messages.map((each, index) => (
-          <li key={index}>{each.text}</li>
+          <li key={index}>
+            {each.user}: {each.text}
+          </li>
         ))}
       </ul>
       <form onSubmit={submit}>
